@@ -1,0 +1,53 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'maven-publish'
+
+    id 'com.jfrog.bintray' version '1.7.3'
+    id 'com.palantir.git-version' version '0.5.3'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+}
+
+version gitVersion().substring(1)
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'org.iatoki'
+            artifactId 'gradle-play-web'
+            version project.version
+            from components.java
+
+            artifact sourceJar {
+                classifier 'sources'
+            }
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['maven']
+
+    pkg {
+        repo = 'releases'
+        name = 'gradle-play-web'
+        userOrg = 'ia-toki'
+
+        version {
+            name = project.version
+        }
+    }
+}
