@@ -26,7 +26,7 @@ public class LessCompile extends SourceTask {
         cleaner.setDestinationDir(getOutputDirectory());
         cleaner.execute();
 
-        LessCompiler lessCompiler = new LessCompiler();
+        PlayLessCompiler lessCompiler = new PlayLessCompiler();
         LessCompileSpec spec = new LessCompileSpec(getSource(), outputDirectory);
         setDidWork(lessCompiler.compile(spec).getDidWork());
     }

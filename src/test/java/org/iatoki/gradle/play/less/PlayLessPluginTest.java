@@ -15,7 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public class PlayLessPluginTests {
+public class PlayLessPluginTest {
     @Rule
     public final TemporaryFolder temporaryFolder = new TemporaryFolder();
 
