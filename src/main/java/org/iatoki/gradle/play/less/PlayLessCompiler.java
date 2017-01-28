@@ -3,6 +3,7 @@ package org.iatoki.gradle.play.less;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.gradle.api.file.FileCollection;
@@ -19,7 +20,7 @@ class PlayLessCompiler {
     private static final String CSS_EXT = ".css";
 
     WorkResult compile(LessCompileSpec spec) {
-        LessCompiler compiler = new LessCompiler();
+        LessCompiler compiler = new LessCompiler(Arrays.asList("--compress"));
 
         for (RelativeFile lessFile : toRelativeFiles(spec.getSourceFiles())) {
             File cssFile = new File(
