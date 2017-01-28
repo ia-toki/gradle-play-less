@@ -8,7 +8,7 @@ import org.gradle.api.tasks.TaskAction;
 import org.gradle.language.base.internal.tasks.SimpleStaleClassCleaner;
 import org.gradle.language.base.internal.tasks.StaleClassCleaner;
 
-public class PlayLessCompile extends SourceTask {
+public class LessCompile extends SourceTask {
     private File outputDirectory;
 
     @OutputDirectory
