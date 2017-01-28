@@ -1,7 +1,9 @@
 package org.iatoki.gradle.play.less;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.gradle.api.DefaultTask;
@@ -58,6 +60,7 @@ public class PlayLessPlugin implements Plugin<Project> {
                 @Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binarySpecs,
                 SourceDirectorySetFactory sourceDirectorySetFactory) {
             binarySpecs.all(binarySpec -> {
+                List<CssSourceSet> cssSourceSets = new ArrayList<>();
                 for (LessSourceSet lessSourceSet : binarySpec.getInputs().withType(LessSourceSet.class)) {
                     String cssSourceSetName = getCssSourceSetName(lessSourceSet);
                     CssSourceSet cssSourceSet = BaseLanguageSourceSet.create(
@@ -66,9 +69,9 @@ public class PlayLessPlugin implements Plugin<Project> {
                             new DefaultComponentSpecIdentifier(binarySpec.getProjectPath(), cssSourceSetName),
                             sourceDirectorySetFactory);
 
-                    binarySpec.getInputs().add(lessSourceSet);
-                    binarySpec.getInputs().add(cssSourceSet);
+                    cssSourceSets.add(cssSourceSet);
                 }
+                binarySpec.getInputs().addAll(cssSourceSets);
             });
         }
 
@@ -111,7 +114,7 @@ public class PlayLessPlugin implements Plugin<Project> {
 
                 @Override
                 public Class<? extends DefaultTask> getTaskType() {
-                    return PlayLessCompile.class;
+                    return LessCompile.class;
                 }
 
                 @Override
@@ -130,7 +133,7 @@ public class PlayLessPlugin implements Plugin<Project> {
                             .iterator()
                             .next();
 
-                    PlayLessCompile lessCompile = (PlayLessCompile) task;
+                    LessCompile lessCompile = (LessCompile) task;
                     lessCompile.setDescription("Compiles the " + lessSourceSet.getDisplayName() + ".");
 
                     File generatedSourceDir = playBinarySpec.getNamingScheme().getOutputDirectory(
