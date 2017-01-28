@@ -1,11 +1,19 @@
 plugins {
     id 'idea'
-    id 'java'
     id 'java-gradle-plugin'
     id 'maven-publish'
 
     id 'com.jfrog.bintray' version '1.7.3'
     id 'com.palantir.git-version' version '0.5.3'
+}
+
+gradlePlugin {
+    plugins {
+        playLess {
+            id = 'org.iatoki.play-less'
+            implementationClass = 'org.iatoki.gradle.play.less.PlayLessPlugin'
+        }
+    }
 }
 
 repositories {
@@ -17,6 +25,7 @@ dependencies {
     testCompile 'org.assertj:assertj-core:3.6.2'
 }
 
+group 'org.iatoki'
 version gitVersion().substring(1)
 
 task sourceJar(type: Jar) {
@@ -26,9 +35,6 @@ task sourceJar(type: Jar) {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId 'org.iatoki'
-            artifactId 'gradle-play-web'
-            version project.version
             from components.java
 
             artifact sourceJar {
@@ -45,7 +51,7 @@ bintray {
 
     pkg {
         repo = 'releases'
-        name = 'gradle-play-web'
+        name = 'gradle-play-less'
         userOrg = 'ia-toki'
 
         version {
