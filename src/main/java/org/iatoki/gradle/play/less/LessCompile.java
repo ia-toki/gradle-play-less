@@ -9,6 +9,11 @@ import org.gradle.util.GFileUtils;
 
 public class LessCompile extends SourceTask {
     private File outputDirectory;
+    private LessCompileOptions options;
+
+    public LessCompile() {
+        this.options = new LessCompileOptions();
+    }
 
     @OutputDirectory
     public File getOutputDirectory() {
@@ -19,12 +24,16 @@ public class LessCompile extends SourceTask {
         this.outputDirectory = outputDirectory;
     }
 
+    public LessCompileOptions getOptions() {
+        return options;
+    }
+
     @TaskAction
     public void doCompile() {
         GFileUtils.forceDelete(outputDirectory);
 
         PlayLessCompiler lessCompiler = new PlayLessCompiler();
-        LessCompileSpec spec = new LessCompileSpec(getSource(), outputDirectory);
+        LessCompileSpec spec = new LessCompileSpec(getSource(), outputDirectory, options);
         setDidWork(lessCompiler.compile(spec).getDidWork());
     }
 }

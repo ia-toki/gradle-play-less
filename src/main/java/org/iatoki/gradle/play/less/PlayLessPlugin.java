@@ -144,6 +144,15 @@ public class PlayLessPlugin implements Plugin<Project> {
                     lessCompile.setSource(lessSourceSet.getSource());
                     cssSourceSet.builtBy(lessCompile);
                     playBinarySpec.getAssets().builtBy(lessCompile);
+
+                    String webJarsExtractName = playBinarySpec.getTasks().taskName("extract", "webJars");
+                    File webJarsOutputDir = new File(generatedSourceDir, webJarsExtractName);
+                    playBinarySpec.getTasks()
+                            .matching(t -> t.getName().equals(webJarsExtractName))
+                            .forEach(webJarsExtract -> {
+                                lessCompile.dependsOn(webJarsExtract);
+                                lessCompile.getOptions().addIncludePath(webJarsOutputDir);
+                            });
                 }
             };
         }

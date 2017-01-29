@@ -3,8 +3,8 @@ package org.iatoki.gradle.play.less;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.file.FileVisitDetails;
@@ -20,7 +20,20 @@ class PlayLessCompiler {
     private static final String CSS_EXT = ".css";
 
     WorkResult compile(LessCompileSpec spec) {
-        LessCompiler compiler = new LessCompiler(Arrays.asList("--compress"));
+        List<String> args = new ArrayList<>();
+
+        args.add("--compress");
+
+        if (!spec.getOptions().getIncludePaths().isEmpty()) {
+            String paths = spec.getOptions().getIncludePaths()
+                    .stream()
+                    .map(File::getAbsolutePath)
+                    .map(path -> "\"" + path + "\"")
+                    .collect(Collectors.joining(";"));
+            args.add("--include-path=" + paths);
+        }
+
+        LessCompiler compiler = new LessCompiler(args);
 
         for (RelativeFile lessFile : toRelativeFiles(spec.getSourceFiles())) {
             File cssFile = new File(
