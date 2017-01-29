@@ -16,7 +16,6 @@ import org.gradle.language.base.LanguageSourceSet;
 import org.gradle.language.base.internal.SourceTransformTaskConfig;
 import org.gradle.language.base.internal.registry.LanguageTransform;
 import org.gradle.language.base.internal.registry.LanguageTransformContainer;
-import org.gradle.language.base.plugins.ComponentModelBasePlugin;
 import org.gradle.language.base.sources.BaseLanguageSourceSet;
 import org.gradle.model.Each;
 import org.gradle.model.Finalize;
@@ -35,9 +34,7 @@ import org.gradle.play.internal.PlayApplicationBinarySpecInternal;
 
 public class PlayLessPlugin implements Plugin<Project> {
     @Override
-    public void apply(Project target) {
-        target.getPluginManager().apply(ComponentModelBasePlugin.class);
-    }
+    public void apply(Project project) {}
 
     private static String getCssSourceSetName(LessSourceSet lessSourceSet) {
         return lessSourceSet.getName() + "Css";
