@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.lesscss:lesscss:1.7.0.1.1'
+    compile 'com.github.sommeri:less4j:1.17.2'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.6.2'
