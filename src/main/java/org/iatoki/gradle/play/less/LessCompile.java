@@ -5,8 +5,7 @@ import java.io.File;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.SourceTask;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.language.base.internal.tasks.SimpleStaleClassCleaner;
-import org.gradle.language.base.internal.tasks.StaleClassCleaner;
+import org.gradle.util.GFileUtils;
 
 public class LessCompile extends SourceTask {
     private File outputDirectory;
@@ -22,9 +21,7 @@ public class LessCompile extends SourceTask {
 
     @TaskAction
     public void doCompile() {
-        StaleClassCleaner cleaner = new SimpleStaleClassCleaner(getOutputs());
-        cleaner.setDestinationDir(getOutputDirectory());
-        cleaner.execute();
+        GFileUtils.forceDelete(outputDirectory);
 
         PlayLessCompiler lessCompiler = new PlayLessCompiler();
         LessCompileSpec spec = new LessCompileSpec(getSource(), outputDirectory);
