@@ -13,11 +13,13 @@ Gradle plugin for compiling LESS assets in Play framework projects.
    ```
    buildscript {
        repositories {
-           jcenter()
+           maven {
+               url 'https://dl.bintray.com/ia-toki/releases'
+           }
        }
  
        dependencies {
-           classpath 'org.iatoki:gradle-play-less:0.2.0'
+           classpath 'org.iatoki:gradle-play-less:0.3.0'
        }
    }
  

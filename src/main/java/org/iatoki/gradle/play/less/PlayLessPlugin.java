@@ -10,7 +10,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
-import org.gradle.api.internal.file.SourceDirectorySetFactory;
+import org.gradle.api.model.ObjectFactory;
 import org.gradle.internal.service.ServiceRegistry;
 import org.gradle.language.base.LanguageSourceSet;
 import org.gradle.language.base.internal.SourceTransformTaskConfig;
@@ -55,7 +55,7 @@ public class PlayLessPlugin implements Plugin<Project> {
         @Mutate
         void createGeneratedCssSourceSets(
                 @Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binarySpecs,
-                SourceDirectorySetFactory sourceDirectorySetFactory) {
+                ObjectFactory objectFactory) {
             binarySpecs.all(binarySpec -> {
                 List<CssSourceSet> cssSourceSets = new ArrayList<>();
                 for (LessSourceSet lessSourceSet : binarySpec.getInputs().withType(LessSourceSet.class)) {
@@ -64,7 +64,7 @@ public class PlayLessPlugin implements Plugin<Project> {
                             CssSourceSet.class,
                             DefaultCssSourceSet.class,
                             new DefaultComponentSpecIdentifier(binarySpec.getProjectPath(), cssSourceSetName),
-                            sourceDirectorySetFactory);
+                            objectFactory);
 
                     cssSourceSets.add(cssSourceSet);
                 }
